@@ -1,24 +1,24 @@
-﻿using System;
+﻿using ModelLib;
+using Newtonsoft.Json;
+using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using System.Threading;
 
-namespace PlainUDPReceiver
+namespace JsonUDPReceiver
 {
     class Program
     {
         static void Main(string[] args)
         {
-            UDPReceiver udpReceiver = new UDPReceiver();
+            UDPReceiverJson udpReceiver = new UDPReceiverJson();
             udpReceiver.Start();
             Console.ReadLine();
         }
     }
-
-    public class UDPReceiver
+    public class UDPReceiverJson
     {
-        public static int port = 11001;
+        public static int port = 11002;
         public void Start()
         {
             UdpClient udpServer = new UdpClient(port);
@@ -35,7 +35,8 @@ namespace PlainUDPReceiver
                     Byte[] receiveBytes = udpServer.Receive(ref remoteEndPoint);
 
                     string receivedData = Encoding.ASCII.GetString(receiveBytes);
-                    Console.WriteLine(receivedData);
+                    Car carJson = JsonConvert.DeserializeObject<Car>(receivedData);
+                    Console.WriteLine(carJson);
                 }
             }
             catch (Exception e)

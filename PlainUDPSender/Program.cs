@@ -26,11 +26,12 @@ namespace PlainUDPSender
 
             IPAddress ip = IPAddress.Parse("127.0.0.1");
             UdpClient udpClient = new UdpClient("127.0.0.1", UDPReceiver.port);
-
             IPEndPoint RemoteIpEndPoint = new IPEndPoint(ip, UDPReceiver.port);
-
-            Byte[] sendBytes = Encoding.ASCII.GetBytes(car.ToString());
-            udpClient.Send(sendBytes, sendBytes.Length);
+            for (int i = 0; i < 500; i++)
+            {
+                Byte[] sendBytes = Encoding.ASCII.GetBytes(car.ToString());
+                udpClient.Send(sendBytes, sendBytes.Length);
+            }
             //Byte[] receiveBytes = udpClient.Receive(ref RemoteIpEndPoint);
 
             //string receivedData = Encoding.ASCII.GetString(receiveBytes);
